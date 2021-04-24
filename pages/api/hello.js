@@ -1,9 +1,16 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-const si = require('systeminformation');
+import * as si from 'systeminformation';
+import {exec} from 'child_process';
 
-export default (req, res) => {
-  si.cpu()
-  .then(data => console.log(data))
-  .catch(error => console.error(error));
-  res.status(200).json({ name: 'John Doe' })
+export default async (req, res) => {
+  exec('zisko_chia_show', (err, stdout, stderr) => {
+    let results = { name: stdout };
+    if (stderr) {
+      results['err'] = stderr;
+      res.status(400).json(results);
+      return res.end();
+    }
+    res.status(200).json(results);
+    return res.end();
+  });
 }
