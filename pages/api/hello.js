@@ -21,6 +21,8 @@ export default async (req, res) => {
     res.status(400).json({show: chia_show_results, farm: chia_farm_results});
     return res.end();
   }
-  res.status(200).json({show: chia_show_results, farm: chia_farm_results});
+  console.log(chia_farm_results.stdout)
+  console.log(chia_show_results.stdout)
+  res.status(200).json({show: chia_show_results.stdout, farm: chia_farm_results.stdout});
   return res.end();
 }
